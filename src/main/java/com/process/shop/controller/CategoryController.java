@@ -2,7 +2,11 @@ package com.process.shop.controller;
 
 import com.process.shop.model.Category;
 import com.process.shop.service.CategoryService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,16 +17,22 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     @PostMapping
-    public Category createCategory(@RequestBody Category category){
-        return categoryService.createCategory(category);
+    public ResponseEntity<Category> createCategory(@RequestBody @Valid Category category){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(categoryService.createCategory(category));
     }
     @PutMapping("/{id}")
-    public Category updateCategory(@RequestBody Category category, @PathVariable Long id){
+    public ResponseEntity<Category> updateCategory(@RequestBody @Valid Category category, @PathVariable @Positive Long id){
         category.setId(id);
-        return categoryService.updateCategory(category, id);
+        return ResponseEntity
+                .ok()
+                .body(categoryService.updateCategory(category, id));
     }
     @GetMapping
-    public List<Category> allCategory(){
-        return categoryService.findAllCategory();
+    public ResponseEntity<List<Category>> allCategory(){
+        return ResponseEntity
+                .ok()
+                .body(categoryService.findAllCategory());
     }
 }

@@ -9,4 +9,5 @@ public interface IArticleService {
     Article updateArticle (Article articleUpdated, Long id);
     Article getArticleById (Long id);
     List<Article> findAllArticles ();
+    List<Article> deleteArticle(Long id);
 }
